@@ -122,7 +122,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",   # ← вот это главное!
 ]
-STATIC_ROOT = BASE_DIR / "staticfiles"  # для collectstatic потом
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -135,9 +134,14 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
+# Для Render и статики
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Разрешаем все хосты
 ALLOWED_HOSTS = ['*']
 
-# Для Render
-if 'RENDER' in os.environ:
-    import django_heroku
-    django_heroku.settings(locals())
+# Безопасность (на проде потом поменяешь)
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-temp-key-2025')
+DEBUG = False
+
