@@ -132,4 +132,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 # Для filesizeformat
+
 DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+
+ALLOWED_HOSTS = ['*']
+
+# Для Render
+if 'RENDER' in os.environ:
+    import django_heroku
+    django_heroku.settings(locals())
