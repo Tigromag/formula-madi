@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formula MADI – Engineering Data Management</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<div class="app-container">
+
+    <!-- Sidebar (один раз на всех страницах) -->
+    <nav class="sidebar">
+        <div class="logo">
+            <h1>Formula <span>MADI</span></h1>
+            <div style="font-size: 12px; color: var(--gray); margin-top: 4px;">Engineering Data Management</div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-title">Основное</div>
+            <a href="{% url 'files:dashboard' %}"
+               class="nav-item {% if current_page == 'dashboard' %}active{% endif %}">
+                <span class="nav-icon">Dashboard</span> Дашборд
+            </a>
+            <a href="{% url 'files:section' 'files' %}"
+               class="nav-item {% if current_page == 'files' %}active{% endif %}">
+                <span class="nav-icon">Files</span> Файлы и документы
+            </a>
+            <a href="{% url 'files:section' 'configurations' %}"
+               class="nav-item {% if current_page == 'configurations' %}active{% endif %}">
+                <span class="nav-icon">Tools</span> Конфигурации
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-title">Компоненты</div>
+            <a href="{% url 'files:section' 'powertrain' %}"
+               class="nav-item {% if current_page == 'powertrain' %}active{% endif %}">
+                <span class="nav-icon">Lightning</span> Силовая установка
+            </a>
+            <a href="{% url 'files:section' 'chassis' %}"
+               class="nav-item {% if current_page == 'chassis' %}active{% endif %}">
+                <span class="nav-icon">Nuts</span> Шасси и подвеска
+            </a>
+            <a href="{% url 'files:section' 'aerodynamics' %}"
+               class="nav-item {% if current_page == 'aerodynamics' %}active{% endif %}">
+                <span class="nav-icon">Swirl</span> Аэродинамика
+            </a>
+            <a href="{% url 'files:section' 'battery' %}"
+               class="nav-item {% if current_page == 'battery' %}active{% endif %}">
+                <span class="nav-icon">Battery</span> Батарея и BMS
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-title">Аналитика</div>
+            <a href="{% url 'files:section' 'telemetry' %}"
+               class="nav-item {% if current_page == 'telemetry' %}active{% endif %}">
+                <span class="nav-icon">Graph</span> Телеметрия
+            </a>
+            <a href="{% url 'files:section' 'calculations' %}"
+               class="nav-item {% if current_page == 'calculations' %}active{% endif %}">
+                <span class="nav-icon">Balance</span> Расчеты и симуляции
+            </a>
+            <a href="{% url 'files:section' 'versioning' %}"
+               class="nav-item {% if current_page == 'versioning' %}active{% endif %}">
+                <span class="nav-icon">Cycle</span> Версионность
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="header">
+            <div class="search-bar">
+                <span class="search-icon">Search</span>
+                <input type="text" id="searchInput" placeholder="Поиск файлов...">
+                <div class="search-results" id="searchResults"></div>
+            </div>
+            <div class="user-actions">
+                {% if user.is_authenticated %}
+                <button class="btn btn-primary"
+                        onclick="document.getElementById('uploadModal').classList.add('active')">
+                    + Загрузить
+                </button>
+                <span style="margin:0 15px; color:white;">Привет, {{ user.first_name|default:user.username }}!</span>
+                <a href="{% url 'files:logout' %}" class="btn">Выйти</a>
+                {% else %}
+                <a href="{% url 'files:login' %}" class="btn">Войти</a>
+                <a href="{% url 'files:register' %}" class="btn btn-primary">Регистрация</a>
+                {% endif %}
+            </div>
+        </header>
+
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Подключаем модальное окно загрузки -->
+    {% include 'upload_modal.html' %}
+
+</div>
+
+<script src="{% static 'js/script.js' %}"></script>
+<script>
+    // Открытие модалки загрузки
+    document.getElementById('openUploadModal').addEventListener('click', () => {
+        document.getElementById('uploadModal').classList.add('active');
+    });
+</script>
+<script>
+    // Универсальное открытие модалки по клику на любую кнопку с id, содержащим "upload"
+    document.addEventListener('click', function (e) {
+        if (e.target.id && e.target.id.includes('upload')) {
+            document.getElementById('uploadModal').classList.add('active');
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<div class="modal-overlay" id="uploadModal">
+    <div class="upload-modal">
+        <div class="modal-header">
+            <div class="modal-title">Загрузка файла</div>
+            <button class="close-modal" type="button" id="closeModalBtn">X</button>
+        </div>
+
+        <form id="uploadForm" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- 1. Блок выбора файла -->
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">Folder</div>
+                <h3>Перетащите файл сюда</h3>
+                <p>или</p>
+                <button type="button" class="btn btn-primary" id="browseBtn">Выбрать файл</button>
+                <input type="file" name="file" id="fileInput" required style="display:none">
+            </div>
+
+            <!-- 2. Блок с полями -->
+            <div id="fileDetails" style="display:none;">
+                <div class="form-group">
+                    <label>Название файла</label>
+                    <input type="text" name="name" id="fileNameInput" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Тип файла</label>
+                    <select name="file_type" class="form-select">
+                        <option value="cad">CAD модель</option>
+                        <option value="doc">Документ</option>
+                        <option value="analysis">Анализ/FEA</option>
+                        <option value="spec">Спецификация</option>
+                        <option value="other" selected>Другое</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Раздел</label>
+                    <select name="section" id="sectionSelect" class="form-select">
+                        <option value="files">Файлы и документы</option>
+                        <option value="configurations">Конфигурации</option>
+                        <option value="powertrain">Силовая установка</option>
+                        <option value="chassis">Шасси и подвеска</option>
+                        <option value="aerodynamics">Аэродинамика</option>
+                        <option value="battery">Батарея и BMS</option>
+                        <option value="telemetry">Телеметрия</option>
+                        <option value="calculations">Расчеты и симуляции</option>
+                        <option value="versioning">Версионность</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Версия</label>
+                    <input type="text" name="version" value="v1.0" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label>Описание</label>
+                    <textarea name="description" rows="3" class="form-input"></textarea>
+                </div>
+
+                <div style="display:flex; gap:12px; margin-top:20px;">
+                    <button type="submit" class="btn btn-primary" style="flex:1">Загрузить на сервер</button>
+                    <button type="button" class="btn" id="cancelBtn">Отмена</button>
+                </div>
+            </div>
+
+            <!-- 3. Прогресс-бар -->
+            <div id="uploadProgress" style="display:none; margin-top:20px;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                    <span id="progressFileName">Загрузка...</span>
+                    <span id="progressPercent">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

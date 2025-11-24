@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="page-content active">
+
+    <div class="dashboard-grid">
+        <div class="card stat-card">
+            <div class="stat-label">Всего файлов</div>
+            <div class="stat-number">{{ total_files }}</div>
+        </div>
+        <div class="card stat-card">
+            <div class="stat-label">Активных конфигураций</div>
+            <div class="stat-number">{{ total_configs }}</div>
+        </div>
+        <div class="card stat-card">
+            <div class="stat-label">Последняя конфигурация</div>
+            <div class="stat-number">{{ latest_version }}</div>
+            <div class="stat-label" style="font-size:13px">{{ latest_config_name }}</div>
+        </div>
+        <div class="card stat-card">
+            <div class="stat-label">Участников команды</div>
+            <div class="stat-number">{{ active_users }}</div>
+        </div>
+    </div>
+
+    <div class="card file-browser">
+        <div class="file-header">
+            <h3>Последние файлы</h3>
+            <div class="file-actions">
+                <button class="btn btn-primary" id="openUploadModal2">Загрузить</button>
+            </div>
+        </div>
+        <div class="file-list" id="fileList">
+            {% for file in files %}
+            {% include 'file_item.html' %}
+            {% empty %}
+            <div class="file-item" style="justify-content:center;color:var(--gray);">Файлов пока нет</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('openUploadModal2')?.addEventListener('click', () => {
+        document.getElementById('uploadModal').classList.add('active');
+    });
+</script>
+{% endblock %}

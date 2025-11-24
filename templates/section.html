@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="page-content active">
+    <div class="card">
+        <h2>
+            {% if current_page == 'files' %}Файлы и документы{% endif %}
+            {% if current_page == 'configurations' %}Конфигурации{% endif %}
+            {% if current_page == 'powertrain' %}Силовая установка{% endif %}
+            {% if current_page == 'chassis' %}Шасси и подвеска{% endif %}
+            {% if current_page == 'aerodynamics' %}Аэродинамика{% endif %}
+            {% if current_page == 'battery' %}Батарея и BMS{% endif %}
+            {% if current_page == 'telemetry' %}Телеметрия{% endif %}
+            {% if current_page == 'calculations' %}Расчеты и симуляции{% endif %}
+            {% if current_page == 'versioning' %}Версионность{% endif %}
+        </h2>
+
+        <button class="btn btn-primary mb-3" id="openUploadModal3">Загрузить файл</button>
+
+        <div class="file-list">
+            {% for file in files %}
+                {% include 'file_item.html' %}
+            {% empty %}
+                <div class="file-item" style="justify-content:center;color:var(--gray);">Файлов в этом разделе пока нет</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('openUploadModal3')?.addEventListener('click', () => {
+        document.getElementById('uploadModal').classList.add('active');
+        // автоматически выбираем нужный раздел
+        const select = document.getElementById('fileSection');
+        if (select) select.value = '{{ current_page }}';
+    });
+</script>
+{% endblock %}
