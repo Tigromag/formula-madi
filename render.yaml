@@ -9,5 +9,5 @@ services:
     startCommand: gunicorn config.wsgi:application --bind 0.0.0.0:$PORT
     envVars:
       DEBUG: "False"
-      SECRET_KEY: "тут-будет-секретный-ключ-не-меняй-пока"
+      SECRET_KEY: "django-insecure-change-this-later-1234567890"
       ALLOWED_HOSTS: "*"
